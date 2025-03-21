@@ -1,0 +1,16 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.div-weather{
+    border: 2px solid pink;
+    padding: 20px;
+}
+
+.div-joke{
+    border: 2px solid yellowgreen;
+    margin: 100px auto;
+    padding: 25px;
+}
