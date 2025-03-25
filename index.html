@@ -20,6 +20,14 @@
     <main>
         <div id="divJoke" class="div-joke">
             <p id="parJoke"></p>
+            <div id="rating">
+                <h5>Wanna rate this joke?</h5>
+                <div class="buttons">
+                    <button value=1 onclick="rate()">Hilarious! </button>
+                    <button value=0 onclick="rate()">So-so </button>
+                    <button value=-1 onclick="rate()">Such a damp squib!</button>
+                </div>
+            </div>
         </div>
     </main>
     <script src="./dist/script.js"></script>
