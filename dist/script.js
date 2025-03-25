@@ -1,4 +1,7 @@
 "use strict";
+const divWeather = document.getElementById('divWeather');
+const parTemp = document.getElementById('parTemp');
+const parCity = document.getElementById("parCity");
 const divJoke = document.getElementById("divJoke");
 window.addEventListener('load', () => {
     fetchAJoke();
@@ -15,11 +18,21 @@ async function getWeather() {
     try {
         const response = await fetch(urlWeather, optionsWeather);
         const result = await response.json();
-        console.log(result);
+        console.log(result.current_observation.condition.temperature);
+        console.log(result.current_observation.condition.text);
+        console.log(result.location.city);
+        printWeather(result);
     }
     catch (error) {
-        console.error(error);
+        divWeather.innerText = `Seems like we cannot get weather information right now: ${error}`;
     }
+}
+function printWeather(result) {
+    const spanTemp = document.createElement('span');
+    spanTemp.innerText = result.current_observation.condition.temperature;
+    const spanText = document.createElement("span");
+    spanText.innerText = result.current_observation.condition.text;
+    parCity.innerText = result.location.city;
 }
 const urlFamilyJoke = 'https://jokes-always.p.rapidapi.com/family';
 const optionsFamilyJoke = {
@@ -42,24 +55,24 @@ async function fetchAJoke() {
         if (randomNumber % 3 === 0) {
             const response = await fetch(urlFamilyJoke, optionsFamilyJoke);
             const result = await response.json();
-            print(result.data);
+            printAJoke(result.data);
         }
         if (randomNumber % 3 === 1) {
             const response = await fetch(urlDadJoke, optionsDadJoke);
             const result = await response.json();
-            print(result.joke);
+            printAJoke(result.joke);
         }
         else {
             const response = await fetch(urlChuckNorris);
             const result = await response.json();
-            print(result.value);
+            printAJoke(result.value);
         }
     }
     catch (error) {
         return `Oops! Seems like there's been an error fetching jokes: ${error}`;
     }
 }
-function print(joke) {
+function printAJoke(joke) {
     divJoke.innerHTML = joke;
 }
 //# sourceMappingURL=script.js.map

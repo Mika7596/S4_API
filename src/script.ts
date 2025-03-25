@@ -1,12 +1,15 @@
+const divWeather = <HTMLElement> document.getElementById('divWeather');
+const parTemp = <HTMLElement> document.getElementById('parTemp');
+const parCity = <HTMLElement> document.getElementById("parCity");
 const divJoke = <HTMLElement> document.getElementById("divJoke");
 
 window.addEventListener('load', () => {
+    //getWeather();
     fetchAJoke();
-    // getWeather();
 }
 );
 
-// -----------------------------------------------Weather -----------------------------------------------
+// ----------------------------------Weather ------------------------------------
 
 const urlWeather = 'https://yahoo-weather5.p.rapidapi.com/weather?location=Barcelona&format=json&u=c';
 const optionsWeather = {
@@ -17,30 +20,52 @@ const optionsWeather = {
 	}
 };
 
+//--------------Alternative weather API
+// const url = 'https://weather-api138.p.rapidapi.com/weather?city_name=Barcelona';
+// const options = {
+// 	method: 'GET',
+// 	headers: {
+// 		'x-rapidapi-key': '9d6679a56bmshe7aac32a188b522p181bd4jsnb2ed9881b884',
+// 		'x-rapidapi-host': 'weather-api138.p.rapidapi.com'
+// 	}
+// };
+
+// try {
+// 	const response = await fetch(url, options);
+// 	const result = await response.text();
+// 	console.log(result);
+// } catch (error) {
+// 	console.error(error);
+// }
+
 async function getWeather() {
     
     try {
         const response = await fetch(urlWeather, optionsWeather);
         const result = await response.json();
-        console.log(result);
+        console.log(result.current_observation.condition.temperature);
+        console.log(result.current_observation.condition.text);
+        console.log(result.location.city);
+        printWeather(result);
+        
     } catch (error) {
-        console.error(error);
+        divWeather.innerText = `Seems like we cannot get weather information right now: ${error}`;
     }
 }
 
+function printWeather (result: any){
+    const spanTemp = document.createElement('span');
+    spanTemp.innerText = result.current_observation.condition.temperature;
 
-// getWeather();
+    const spanText = document.createElement("span");
+    spanText.innerText = result.current_observation.condition.text;
 
-// {"location":
-// {"city":"Barcelona","woeid":753692,"country":"Spain","lat":41.39917,"long":2.15397,"timezone_id":"Europe/Madrid"},
-// "current_observation":{"pubDate":1742646942,"wind":{"chill":12,"direction":"SSW","speed":10},
-// "atmosphere":{"humidity":91,"visibility":14.98,"pressure":1004.1},
-// "astronomy":{"sunrise":"6:52 AM","sunset":"7:05 PM"},
-// "condition":{"temperature":15,"text":"Cloudy","code":26}},
-// "forecasts":[{"day":"Sat","date":1742659200,"high":15,"low":9,"text":"Mostly Cloudy","code":28},{"day":"Sun","date":1742745600,"high":15,"low":8,"text":"Showers","code":11},{"day":"Mon","date":1742832000,"high":16,"low":8,"text":"Partly Cloudy","code":30},{"day":"Tue","date":1742918400,"high":18,"low":9,"text":"Mostly Cloudy","code":28},{"day":"Wed","date":1743004800,"high":18,"low":9,"text":"Mostly Sunny","code":34},{"day":"Thu","date":1743091200,"high":19,"low":9,"text":"Mostly Sunny","code":34},{"day":"Fri","date":1743177600,"high":19,"low":9,"text":"Mostly Sunny","code":34},{"day":"Sat","date":1743264000,"high":18,"low":9,"text":"Showers","code":11},{"day":"Sun","date":1743350400,"high":18,"low":8,"text":"Partly Cloudy","code":30},{"day":"Mon","date":1743436800,"high":18,"low":9,"text":"Sunny","code":32},{"day":"Tue","date":1743523200,"high":18,"low":9,"text":"Partly Cloudy","code":30}]}
+    parCity.innerText = result.location.city;
+}
 
 
-// ---------------------------------------------------JOKES-----------------------------------------------------//
+
+// ------------------------------------------JOKES------------------------------------------//
 // Urls & headers to fetch 3 joke APIs
 const urlFamilyJoke = 'https://jokes-always.p.rapidapi.com/family';
 const optionsFamilyJoke = {
@@ -69,21 +94,21 @@ async function fetchAJoke(){
         if (randomNumber % 3 === 0){
             const response = await fetch(urlFamilyJoke, optionsFamilyJoke);
             const result = await response.json();
-            print(result.data);
+            printAJoke(result.data);
         } if (randomNumber % 3 === 1){
             const response = await fetch(urlDadJoke, optionsDadJoke);
             const result = await response.json();
-            print(result.joke)
+            printAJoke(result.joke)
         } else{
             const response = await fetch(urlChuckNorris);
             const result = await response.json();
-            print(result.value);
+            printAJoke(result.value);
         }
     } catch (error){
         return `Oops! Seems like there's been an error fetching jokes: ${error}`
     }
 }
 
-function print(joke: string){
+function printAJoke(joke: string){
     divJoke.innerHTML = joke;
 }
