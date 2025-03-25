@@ -6,8 +6,25 @@ const parTemp = document.getElementById('parTemp');
 const parCity = document.getElementById("parCity");
 const parJoke = document.getElementById("parJoke");
 window.addEventListener('load', () => {
+    displayHour();
     displayDate();
 });
+function displayHour() {
+    let time = new Date();
+    let hour = time.getHours().toString();
+    let min = time.getMinutes().toString();
+    let sec = time.getSeconds().toString();
+    hour = Number(hour) < 10 ? "0" + hour : hour;
+    min = Number(min) < 10 ? "0" + min : min;
+    sec = Number(sec) < 10 ? "0" + sec : sec;
+    try {
+        parHour.innerText = `${hour}:${min}:${sec}`;
+    }
+    catch {
+        parHour.innerText = "Cannot display the hour at the moment.";
+    }
+}
+setInterval(displayHour, 1000);
 function displayDate() {
     let year = new Date().getFullYear();
     let month = new Date().getMonth() + 1;
@@ -19,8 +36,7 @@ function displayDate() {
         parDate.textContent = "Cannot show the date right now.";
     }
 }
-function displayTime() {
-}
+setInterval(displayDate, 3600000);
 const urlWeather = 'https://yahoo-weather5.p.rapidapi.com/weather?location=Barcelona&format=json&u=c';
 const optionsWeather = {
     method: 'GET',
