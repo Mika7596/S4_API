@@ -1,3 +1,13 @@
+const divJoke = <HTMLElement> document.getElementById("divJoke");
+
+window.addEventListener('load', () => {
+    fetchAJoke();
+    // getWeather();
+}
+);
+
+// -----------------------------------------------Weather -----------------------------------------------
+
 const urlWeather = 'https://yahoo-weather5.p.rapidapi.com/weather?location=Barcelona&format=json&u=c';
 const optionsWeather = {
 	method: 'GET',
@@ -29,6 +39,9 @@ async function getWeather() {
 // "condition":{"temperature":15,"text":"Cloudy","code":26}},
 // "forecasts":[{"day":"Sat","date":1742659200,"high":15,"low":9,"text":"Mostly Cloudy","code":28},{"day":"Sun","date":1742745600,"high":15,"low":8,"text":"Showers","code":11},{"day":"Mon","date":1742832000,"high":16,"low":8,"text":"Partly Cloudy","code":30},{"day":"Tue","date":1742918400,"high":18,"low":9,"text":"Mostly Cloudy","code":28},{"day":"Wed","date":1743004800,"high":18,"low":9,"text":"Mostly Sunny","code":34},{"day":"Thu","date":1743091200,"high":19,"low":9,"text":"Mostly Sunny","code":34},{"day":"Fri","date":1743177600,"high":19,"low":9,"text":"Mostly Sunny","code":34},{"day":"Sat","date":1743264000,"high":18,"low":9,"text":"Showers","code":11},{"day":"Sun","date":1743350400,"high":18,"low":8,"text":"Partly Cloudy","code":30},{"day":"Mon","date":1743436800,"high":18,"low":9,"text":"Sunny","code":32},{"day":"Tue","date":1743523200,"high":18,"low":9,"text":"Partly Cloudy","code":30}]}
 
+
+// ---------------------------------------------------JOKES-----------------------------------------------------//
+// Urls & headers to fetch 3 joke APIs
 const urlFamilyJoke = 'https://jokes-always.p.rapidapi.com/family';
 const optionsFamilyJoke = {
 	method: 'GET',
@@ -43,28 +56,34 @@ const optionsDadJoke = {
     headers: {
         'Accept': 'application/json'
     }
-}
+};
 
-async function getAJoke() {
+const urlChuckNorris = 'https://api.chucknorris.io/jokes/random';
+
+// Functions to fetch a random joke and to display it on DOM
+
+async function fetchAJoke(){
     
-    try {
-        const response = await fetch(urlFamilyJoke, optionsFamilyJoke);
-        const result = await response.json();
-        console.log(response);
-    } catch (error) {
-        console.error(error);
-    }
-}
-// getAJoke();
-
-async function getADadJoke() {
+    let randomNumber: number = Math.ceil(Math.random()*10);
     try{
-        const response = await fetch(urlDadJoke, optionsDadJoke);
-        const result = await response.json();
-        console.log(result.joke);
+        if (randomNumber % 3 === 0){
+            const response = await fetch(urlFamilyJoke, optionsFamilyJoke);
+            const result = await response.json();
+            print(result.data);
+        } if (randomNumber % 3 === 1){
+            const response = await fetch(urlDadJoke, optionsDadJoke);
+            const result = await response.json();
+            print(result.joke)
+        } else{
+            const response = await fetch(urlChuckNorris);
+            const result = await response.json();
+            print(result.value);
+        }
     } catch (error){
-        console.log(error)
+        return `Oops! Seems like there's been an error fetching jokes: ${error}`
     }
 }
 
-getADadJoke();
+function print(joke: string){
+    divJoke.innerHTML = joke;
+}

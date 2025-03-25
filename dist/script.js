@@ -1,4 +1,8 @@
 "use strict";
+const divJoke = document.getElementById("divJoke");
+window.addEventListener('load', () => {
+    fetchAJoke();
+});
 const urlWeather = 'https://yahoo-weather5.p.rapidapi.com/weather?location=Barcelona&format=json&u=c';
 const optionsWeather = {
     method: 'GET',
@@ -25,31 +29,37 @@ const optionsFamilyJoke = {
         'x-rapidapi-host': 'jokes-always.p.rapidapi.com'
     }
 };
-async function getAJoke() {
-    try {
-        const response = await fetch(urlFamilyJoke, optionsFamilyJoke);
-        const result = await response.json();
-        console.log(response);
-    }
-    catch (error) {
-        console.error(error);
-    }
-}
 const urlDadJoke = 'https://icanhazdadjoke.com/';
 const optionsDadJoke = {
     headers: {
         'Accept': 'application/json'
     }
 };
-async function getADadJoke() {
+const urlChuckNorris = 'https://api.chucknorris.io/jokes/random';
+async function fetchAJoke() {
+    let randomNumber = Math.ceil(Math.random() * 10);
     try {
-        const response = await fetch(urlDadJoke, optionsDadJoke);
-        const pepe = await response.json();
-        console.log(pepe.joke);
+        if (randomNumber % 3 === 0) {
+            const response = await fetch(urlFamilyJoke, optionsFamilyJoke);
+            const result = await response.json();
+            print(result.data);
+        }
+        if (randomNumber % 3 === 1) {
+            const response = await fetch(urlDadJoke, optionsDadJoke);
+            const result = await response.json();
+            print(result.joke);
+        }
+        else {
+            const response = await fetch(urlChuckNorris);
+            const result = await response.json();
+            print(result.value);
+        }
     }
     catch (error) {
-        console.log(error);
+        return `Oops! Seems like there's been an error fetching jokes: ${error}`;
     }
 }
-getADadJoke();
+function print(joke) {
+    divJoke.innerHTML = joke;
+}
 //# sourceMappingURL=script.js.map
