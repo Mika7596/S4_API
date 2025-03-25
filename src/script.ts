@@ -1,15 +1,34 @@
 const divWeather = <HTMLElement> document.getElementById('divWeather');
+const parHour = <HTMLElement> document.getElementById("parHour");
+const parDate = <HTMLElement> document.getElementById("parDate");
 const parTemp = <HTMLElement> document.getElementById('parTemp');
 const parCity = <HTMLElement> document.getElementById("parCity");
-const divJoke = <HTMLElement> document.getElementById("divJoke");
+const parJoke = <HTMLElement> document.getElementById("parJoke");
 
 window.addEventListener('load', () => {
+    displayDate();
     //getWeather();
-    fetchAJoke();
+    //fetchAJoke();
 }
 );
 
-// ----------------------------------Weather ------------------------------------
+function displayDate(){
+    let year = new Date().getFullYear();
+    let month = new Date().getMonth() + 1;
+    let day = new Date().getDate();
+    try{
+        parDate.innerText = `${year}/${month}/${day}`
+
+    }catch{
+        parDate.textContent = "Cannot show the date right now."
+    }
+}
+
+function displayTime(){
+    
+}
+
+// ----------------------------------Weather -------------------------------
 
 const urlWeather = 'https://yahoo-weather5.p.rapidapi.com/weather?location=Barcelona&format=json&u=c';
 const optionsWeather = {
@@ -52,6 +71,9 @@ async function getWeather() {
         divWeather.innerText = `Seems like we cannot get weather information right now: ${error}`;
     }
 }
+
+
+
 
 function printWeather (result: any){
     const spanTemp = document.createElement('span');
@@ -110,5 +132,5 @@ async function fetchAJoke(){
 }
 
 function printAJoke(joke: string){
-    divJoke.innerHTML = joke;
+    parJoke.innerText = joke;
 }

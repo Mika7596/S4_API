@@ -1,11 +1,26 @@
 "use strict";
 const divWeather = document.getElementById('divWeather');
+const parHour = document.getElementById("parHour");
+const parDate = document.getElementById("parDate");
 const parTemp = document.getElementById('parTemp');
 const parCity = document.getElementById("parCity");
-const divJoke = document.getElementById("divJoke");
+const parJoke = document.getElementById("parJoke");
 window.addEventListener('load', () => {
-    fetchAJoke();
+    displayDate();
 });
+function displayDate() {
+    let year = new Date().getFullYear();
+    let month = new Date().getMonth() + 1;
+    let day = new Date().getDate();
+    try {
+        parDate.innerText = `${year}/${month}/${day}`;
+    }
+    catch {
+        parDate.textContent = "Cannot show the date right now.";
+    }
+}
+function displayTime() {
+}
 const urlWeather = 'https://yahoo-weather5.p.rapidapi.com/weather?location=Barcelona&format=json&u=c';
 const optionsWeather = {
     method: 'GET',
@@ -73,6 +88,6 @@ async function fetchAJoke() {
     }
 }
 function printAJoke(joke) {
-    divJoke.innerHTML = joke;
+    parJoke.innerText = joke;
 }
 //# sourceMappingURL=script.js.map
