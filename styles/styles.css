@@ -5,7 +5,7 @@
 }
 body{
     height: 100vh;
-    background-color: rgb(56, 63, 75);
+    background-color: rgb(42, 53, 71);
 }
 header{
     background-color: rgb(24, 23, 23);
@@ -33,13 +33,15 @@ header{
     
 }
 .div-joke p{
-    color: rgb(57, 233, 95);
+    color: #b2f878;
     padding: 50px;
+    font-size: 1.25rem;
+    font-family: cursive;
 }
 h3{
     margin: auto;
     width: fit-content;
-    color: rgb(247, 247, 58);
+    color: #95f04b;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 .buttons{
@@ -49,8 +51,15 @@ h3{
 .buttons button{
     padding: 10px;
     border-radius: 25px;
-    background-color: #c9f137;
+    background-color: #95f04b;
     border: none;
     cursor: pointer;
     margin: 20px 20px 0 0;
+}
+#ratingText{
+    display: none;
+    width: fit-content;
+    padding: 1%;
+    margin: 20px auto;
+    color: rgb(214, 48, 230)
 }

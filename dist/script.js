@@ -5,6 +5,7 @@ const parDate = document.getElementById("parDate");
 const parTemp = document.getElementById('parTemp');
 const parCity = document.getElementById("parCity");
 const parJoke = document.getElementById("parJoke");
+const ratingMsg = document.getElementById("ratingText");
 window.addEventListener('load', () => {
     displayHour();
     displayDate();
@@ -96,6 +97,7 @@ class Joke {
 async function fetchAJoke() {
     let randomNumber = Math.ceil(Math.random() * 10);
     let text = "";
+    ratingMsg.style.display = "none";
     try {
         if (randomNumber % 3 === 0) {
             const response = await fetch(urlFamilyJoke, optionsFamilyJoke);
@@ -123,7 +125,6 @@ function printAJoke(joke) {
     parJoke.innerText = joke;
 }
 function saveJoke(text) {
-    console.log("hola");
     if (!arrayJokes.some(data => data.joke === text)) {
         let newJoke = new Joke(text, 0, new Date().toISOString());
         arrayJokes.push(newJoke);
@@ -136,5 +137,6 @@ function saveJoke(text) {
 function rate(value) {
     let currentJoke = arrayJokes[arrayJokes.length - 1];
     currentJoke.score += value;
+    ratingMsg.style.display = "block";
 }
 //# sourceMappingURL=script.js.map
