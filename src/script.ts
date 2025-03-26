@@ -10,7 +10,7 @@ const ratingMsg = <HTMLElement> document.getElementById("ratingText");
 window.addEventListener('load', () => {
     displayHour();
     displayDate();
-    getWeather();
+    //getWeather();
     //fetchAJoke();
 }
 );

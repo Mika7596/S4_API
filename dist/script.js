@@ -10,7 +10,6 @@ const ratingMsg = document.getElementById("ratingText");
 window.addEventListener('load', () => {
     displayHour();
     displayDate();
-    getWeather();
 });
 function displayHour() {
     let time = new Date();
