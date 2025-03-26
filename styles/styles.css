@@ -30,13 +30,24 @@ header{
 .div-joke{
     width: 50%;
     margin: auto;
-    
+    text-align: center;
 }
 .div-joke p{
-    color: #b2f878;
+    color: rgb(184, 232, 247);
     padding: 50px;
     font-size: 1.25rem;
     font-family: cursive;
+}
+button{
+    padding: 10px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    margin: 20px 20px 0 0;
+}
+.butt-another{
+    background-color: rgb(136, 202, 223);
+    margin-bottom: 50px;
 }
 h3{
     margin: auto;
@@ -49,12 +60,7 @@ h3{
     margin: auto;
 }
 .buttons button{
-    padding: 10px;
-    border-radius: 25px;
     background-color: #95f04b;
-    border: none;
-    cursor: pointer;
-    margin: 20px 20px 0 0;
 }
 #ratingText{
     display: none;
