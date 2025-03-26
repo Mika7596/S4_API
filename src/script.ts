@@ -8,7 +8,7 @@ const parJoke = <HTMLElement> document.getElementById("parJoke");
 window.addEventListener('load', () => {
     displayHour();
     displayDate();
-    //getWeather();
+    getWeather();
     //fetchAJoke();
 }
 );
@@ -122,25 +122,39 @@ const optionsDadJoke = {
 
 const urlChuckNorris = 'https://api.chucknorris.io/jokes/random';
 
+// Defining an array where the displayed jokes will be kept
+const arrayJokes:{joke:string, score: number, date:string}[] = [];
+
+class Joke{
+    constructor(public joke:string, public score: number, public date: string){
+    }
+}
+
 // Functions to fetch a random joke and to display it on DOM
 
 async function fetchAJoke(){
     
     let randomNumber: number = Math.ceil(Math.random()*10);
+    let text: string = "";
     try{
         if (randomNumber % 3 === 0){
             const response = await fetch(urlFamilyJoke, optionsFamilyJoke);
             const result = await response.json();
-            printAJoke(result.data);
+            text = result.data;
+            // printAJoke(result.data);
         } if (randomNumber % 3 === 1){
             const response = await fetch(urlDadJoke, optionsDadJoke);
             const result = await response.json();
-            printAJoke(result.joke)
+            text = result.joke;
+            // printAJoke(result.joke)
         } else{
             const response = await fetch(urlChuckNorris);
             const result = await response.json();
-            printAJoke(result.value);
+            text = result.value;
+            // printAJoke(result.value);
         }
+        printAJoke(text);
+        saveJoke(text);
     } catch (error){
         return `Oops! Seems like there's been an error fetching jokes: ${error}`
     }
@@ -148,4 +162,14 @@ async function fetchAJoke(){
 
 function printAJoke(joke: string){
     parJoke.innerText = joke;
+    
 }
+function saveJoke(text: string){
+    arrayJokes.forEach( data =>{
+        if (data.joke !== text){
+            let newJoke = new Joke(text, 0, new Date().toISOString());
+            arrayJokes.push(newJoke)
+        }
+    })
+}
+

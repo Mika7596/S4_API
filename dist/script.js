@@ -8,6 +8,7 @@ const parJoke = document.getElementById("parJoke");
 window.addEventListener('load', () => {
     displayHour();
     displayDate();
+    getWeather();
 });
 function displayHour() {
     let time = new Date();
@@ -80,24 +81,37 @@ const optionsDadJoke = {
     }
 };
 const urlChuckNorris = 'https://api.chucknorris.io/jokes/random';
+const arrayJokes = [];
+class Joke {
+    joke;
+    score;
+    date;
+    constructor(joke, score, date) {
+        this.joke = joke;
+        this.score = score;
+        this.date = date;
+    }
+}
 async function fetchAJoke() {
     let randomNumber = Math.ceil(Math.random() * 10);
+    let text = "";
     try {
         if (randomNumber % 3 === 0) {
             const response = await fetch(urlFamilyJoke, optionsFamilyJoke);
             const result = await response.json();
-            printAJoke(result.data);
+            text = result.data;
         }
         if (randomNumber % 3 === 1) {
             const response = await fetch(urlDadJoke, optionsDadJoke);
             const result = await response.json();
-            printAJoke(result.joke);
+            text = result.joke;
         }
         else {
             const response = await fetch(urlChuckNorris);
             const result = await response.json();
-            printAJoke(result.value);
+            text = result.value;
         }
+        printAJoke(text);
     }
     catch (error) {
         return `Oops! Seems like there's been an error fetching jokes: ${error}`;
