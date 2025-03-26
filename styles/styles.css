@@ -11,8 +11,7 @@ header{
     background-color: rgb(24, 23, 23);
     display: flex;
     justify-content: space-between;
-    padding: 4% 10%;
-    height: 180px;
+    padding: 3% 10%;
     color: rgb(39, 176, 218);
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 1.1rem;

@@ -3,6 +3,7 @@ const divWeather = document.getElementById('divWeather');
 const parHour = document.getElementById("parHour");
 const parDate = document.getElementById("parDate");
 const parTemp = document.getElementById('parTemp');
+const parDescription = document.getElementById("description");
 const parCity = document.getElementById("parCity");
 const parJoke = document.getElementById("parJoke");
 const ratingMsg = document.getElementById("ratingText");
@@ -10,7 +11,6 @@ window.addEventListener('load', () => {
     displayHour();
     displayDate();
     getWeather();
-    fetchAJoke();
 });
 function displayHour() {
     let time = new Date();
@@ -48,25 +48,28 @@ const optionsWeather = {
         'x-rapidapi-host': 'yahoo-weather5.p.rapidapi.com'
     }
 };
+const alternativeWeather = "https://www.el-tiempo.net/api/json/v2/home";
 async function getWeather() {
     try {
-        const response = await fetch(urlWeather, optionsWeather);
-        const result = await response.json();
-        console.log(result.current_observation.condition.temperature);
-        console.log(result.current_observation.condition.text);
-        console.log(result.location.city);
-        printWeather(result);
+        try {
+            const response = await fetch(urlWeather, optionsWeather);
+            const result = await response.json();
+            printWeather(result.current_observation.condition.temperature, result.current_observation.condition.text);
+        }
+        catch {
+            const response = await fetch(alternativeWeather);
+            const data = await response.json();
+            console.log(data);
+            printWeather(data.ciudades[0].temperatures.max, data.ciudades[0].stateSky.description);
+        }
     }
     catch (error) {
-        divWeather.innerText = `Seems like we cannot get weather information right now: ${error}`;
+        parCity.innerText = `Seems like we cannot get weather information right now: ${error}`;
     }
 }
-function printWeather(result) {
-    const spanTemp = document.createElement('span');
-    spanTemp.innerText = result.current_observation.condition.temperature;
-    const spanText = document.createElement("span");
-    spanText.innerText = result.current_observation.condition.text;
-    parCity.innerText = result.location.city;
+function printWeather(temperature, description) {
+    parTemp.textContent = `${temperature}º`;
+    parDescription.innerText = description;
 }
 const urlFamilyJoke = 'https://jokes-always.p.rapidapi.com/family';
 const optionsFamilyJoke = {

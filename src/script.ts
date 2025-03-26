@@ -2,6 +2,7 @@ const divWeather = <HTMLElement> document.getElementById('divWeather');
 const parHour = <HTMLElement> document.getElementById("parHour");
 const parDate = <HTMLElement> document.getElementById("parDate");
 const parTemp = <HTMLElement> document.getElementById('parTemp');
+const parDescription = <HTMLElement> document.getElementById("description");
 const parCity = <HTMLElement> document.getElementById("parCity");
 const parJoke = <HTMLElement> document.getElementById("parJoke");
 const ratingMsg = <HTMLElement> document.getElementById("ratingText");
@@ -10,7 +11,7 @@ window.addEventListener('load', () => {
     displayHour();
     displayDate();
     getWeather();
-    fetchAJoke();
+    //fetchAJoke();
 }
 );
 
@@ -54,51 +55,28 @@ const optionsWeather = {
 		'x-rapidapi-host': 'yahoo-weather5.p.rapidapi.com'
 	}
 };
-
-//--------------Alternative weather API
-// const url = 'https://weather-api138.p.rapidapi.com/weather?city_name=Barcelona';
-// const options = {
-// 	method: 'GET',
-// 	headers: {
-// 		'x-rapidapi-key': '9d6679a56bmshe7aac32a188b522p181bd4jsnb2ed9881b884',
-// 		'x-rapidapi-host': 'weather-api138.p.rapidapi.com'
-// 	}
-// };
-
-// try {
-// 	const response = await fetch(url, options);
-// 	const result = await response.text();
-// 	console.log(result);
-// } catch (error) {
-// 	console.error(error);
-// }
+const alternativeWeather = "https://www.el-tiempo.net/api/json/v2/home";
 
 async function getWeather() {
-    
-    try {
-        const response = await fetch(urlWeather, optionsWeather);
-        const result = await response.json();
-        console.log(result.current_observation.condition.temperature);
-        console.log(result.current_observation.condition.text);
-        console.log(result.location.city);
-        printWeather(result);
-        
-    } catch (error) {
-        divWeather.innerText = `Seems like we cannot get weather information right now: ${error}`;
+    try{
+        try{
+            const response = await fetch(urlWeather, optionsWeather);
+            const result = await response.json();
+             printWeather(result.current_observation.condition.temperature, result.current_observation.condition.text);
+        }catch{
+            const response = await fetch(alternativeWeather);
+            const data = await response.json();
+            console.log(data);
+            printWeather(data.ciudades[0].temperatures.max, data.ciudades[0].stateSky.description);
+        }
+    }catch(error){
+        parCity.innerText = `Seems like we cannot get weather information right now: ${error}`;
     }
 }
 
-
-
-
-function printWeather (result: any){
-    const spanTemp = document.createElement('span');
-    spanTemp.innerText = result.current_observation.condition.temperature;
-
-    const spanText = document.createElement("span");
-    spanText.innerText = result.current_observation.condition.text;
-
-    parCity.innerText = result.location.city;
+function printWeather (temperature: string, description: string){
+    parTemp.textContent = `${temperature}º`;
+    parDescription.innerText = description;
 }
 
 
