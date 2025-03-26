@@ -9,6 +9,7 @@ window.addEventListener('load', () => {
     displayHour();
     displayDate();
     getWeather();
+    fetchAJoke();
 });
 function displayHour() {
     let time = new Date();
@@ -112,6 +113,7 @@ async function fetchAJoke() {
             text = result.value;
         }
         printAJoke(text);
+        saveJoke(text);
     }
     catch (error) {
         return `Oops! Seems like there's been an error fetching jokes: ${error}`;
@@ -119,5 +121,20 @@ async function fetchAJoke() {
 }
 function printAJoke(joke) {
     parJoke.innerText = joke;
+}
+function saveJoke(text) {
+    console.log("hola");
+    if (!arrayJokes.some(data => data.joke === text)) {
+        let newJoke = new Joke(text, 0, new Date().toISOString());
+        arrayJokes.push(newJoke);
+        console.log(newJoke);
+    }
+    else {
+        console.log(arrayJokes.find(data => data.joke === text));
+    }
+}
+function rate(value) {
+    let currentJoke = arrayJokes[arrayJokes.length - 1];
+    currentJoke.score += value;
 }
 //# sourceMappingURL=script.js.map

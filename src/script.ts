@@ -9,7 +9,7 @@ window.addEventListener('load', () => {
     displayHour();
     displayDate();
     getWeather();
-    //fetchAJoke();
+    fetchAJoke();
 }
 );
 
@@ -140,21 +140,19 @@ async function fetchAJoke(){
         if (randomNumber % 3 === 0){
             const response = await fetch(urlFamilyJoke, optionsFamilyJoke);
             const result = await response.json();
-            text = result.data;
-            // printAJoke(result.data);
+            text = result.data;    
         } if (randomNumber % 3 === 1){
             const response = await fetch(urlDadJoke, optionsDadJoke);
             const result = await response.json();
-            text = result.joke;
-            // printAJoke(result.joke)
+            text = result.joke;    
         } else{
             const response = await fetch(urlChuckNorris);
             const result = await response.json();
             text = result.value;
-            // printAJoke(result.value);
         }
         printAJoke(text);
         saveJoke(text);
+
     } catch (error){
         return `Oops! Seems like there's been an error fetching jokes: ${error}`
     }
@@ -165,11 +163,17 @@ function printAJoke(joke: string){
     
 }
 function saveJoke(text: string){
-    arrayJokes.forEach( data =>{
-        if (data.joke !== text){
-            let newJoke = new Joke(text, 0, new Date().toISOString());
-            arrayJokes.push(newJoke)
-        }
-    })
+    console.log("hola");
+    if(!arrayJokes.some(data => data.joke === text)){
+        let newJoke = new Joke(text, 0, new Date().toISOString());
+            arrayJokes.push(newJoke);
+            console.log(newJoke);
+    } else{
+        console.log(arrayJokes.find(data => data.joke === text));
+    }
 }
 
+function rate(value: number){
+    let currentJoke = arrayJokes[arrayJokes.length-1];
+    currentJoke.score += value;
+}

@@ -5,6 +5,7 @@
 }
 body{
     height: 100vh;
+    background-color: rgb(56, 63, 75);
 }
 header{
     background-color: rgb(24, 23, 23);
@@ -26,10 +27,6 @@ header{
     text-align: center;
 }
 
-main{
-    background-color: rgb(56, 63, 75);
-    height: 71%;
-}
 .div-joke{
     width: 50%;
     margin: auto;
